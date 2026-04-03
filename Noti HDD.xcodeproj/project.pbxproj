@@ -1,0 +1,310 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A100000000000000000050 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000010 /* main.swift */; };
+		A100000000000000000051 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000011 /* AppDelegate.swift */; };
+		A100000000000000000052 /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000012 /* StatusBarController.swift */; };
+		A100000000000000000053 /* DiskMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000013 /* DiskMonitor.swift */; };
+		A100000000000000000054 /* LEDStyleWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000014 /* LEDStyleWindowController.swift */; };
+		A100000000000000000055 /* LEDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000015 /* LEDView.swift */; };
+		A100000000000000000056 /* AboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000016 /* AboutWindowController.swift */; };
+		A100000000000000000057 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000017 /* Assets.xcassets */; };
+		A100000000000000000071 /* EyeExerciseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000070 /* EyeExerciseManager.swift */; };
+		A100000000000000000073 /* EyeExerciseOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000072 /* EyeExerciseOverlay.swift */; };
+		A100000000000000000075 /* EyeExerciseMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000074 /* EyeExerciseMenuView.swift */; };
+		A100000000000000000077 /* CheckboxMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000076 /* CheckboxMenuView.swift */; };
+		A100000000000000000079 /* SunflowerSeedView_original.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000078 /* SunflowerSeedView_original.swift */; };
+		A10000000000000000007B /* CircularMotionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000007A /* CircularMotionDetector.swift */; };
+		A10000000000000000007D /* ShakeDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000007C /* ShakeDetector.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A100000000000000000010 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		A100000000000000000011 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A100000000000000000012 /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
+		A100000000000000000013 /* DiskMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskMonitor.swift; sourceTree = "<group>"; };
+		A100000000000000000014 /* LEDStyleWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LEDStyleWindowController.swift; sourceTree = "<group>"; };
+		A100000000000000000015 /* LEDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LEDView.swift; sourceTree = "<group>"; };
+		A100000000000000000016 /* AboutWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWindowController.swift; sourceTree = "<group>"; };
+		A100000000000000000017 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A100000000000000000018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+			A100000000000000000019 /* Noti HDD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Noti HDD.entitlements"; sourceTree = "<group>"; };
+		A100000000000000000070 /* EyeExerciseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeExerciseManager.swift; sourceTree = "<group>"; };
+		A100000000000000000072 /* EyeExerciseOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeExerciseOverlay.swift; sourceTree = "<group>"; };
+		A100000000000000000074 /* EyeExerciseMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeExerciseMenuView.swift; sourceTree = "<group>"; };
+		A100000000000000000076 /* CheckboxMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxMenuView.swift; sourceTree = "<group>"; };
+		A10000000000000000007A /* CircularMotionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularMotionDetector.swift; sourceTree = "<group>"; };
+		A10000000000000000007C /* ShakeDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeDetector.swift; sourceTree = "<group>"; };
+		A100000000000000000078 /* SunflowerSeedView_original.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunflowerSeedView_original.swift; sourceTree = "<group>"; };
+			A100000000000000000020 /* Noti HDD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Noti HDD.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A100000000000000000041 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+			A100000000000000000002 /* Noti HDD */ = {
+			isa = PBXGroup;
+			children = (
+					A100000000000000000003 /* Noti HDD */,
+				A100000000000000000004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+			A100000000000000000003 /* Noti HDD */ = {
+			isa = PBXGroup;
+			children = (
+				A100000000000000000010 /* main.swift */,
+				A100000000000000000011 /* AppDelegate.swift */,
+				A100000000000000000012 /* StatusBarController.swift */,
+				A100000000000000000013 /* DiskMonitor.swift */,
+				A100000000000000000014 /* LEDStyleWindowController.swift */,
+				A100000000000000000015 /* LEDView.swift */,
+				A100000000000000000016 /* AboutWindowController.swift */,
+				A100000000000000000017 /* Assets.xcassets */,
+				A100000000000000000018 /* Info.plist */,
+					A100000000000000000019 /* Noti HDD.entitlements */,
+			A100000000000000000070 /* EyeExerciseManager.swift */,
+			A100000000000000000072 /* EyeExerciseOverlay.swift */,
+			A100000000000000000074 /* EyeExerciseMenuView.swift */,
+			A100000000000000000076 /* CheckboxMenuView.swift */,
+			A10000000000000000007A /* CircularMotionDetector.swift */,
+		A10000000000000000007C /* ShakeDetector.swift */,
+			A100000000000000000078 /* SunflowerSeedView_original.swift */,
+			);
+				path = "Noti HDD";
+			sourceTree = "<group>";
+		};
+		A100000000000000000004 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+					A100000000000000000020 /* Noti HDD.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+			A100000000000000000060 /* Noti HDD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100000000000000000031;
+			buildPhases = (
+				A100000000000000000040 /* Sources */,
+				A100000000000000000041 /* Frameworks */,
+				A100000000000000000042 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Noti HDD";
+			productName = "Noti HDD";
+			productReference = A100000000000000000020 /* Noti HDD.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A100000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					A100000000000000000060 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = A100000000000000000030;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A100000000000000000002;
+			productRefGroup = A100000000000000000004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+					A100000000000000000060 /* Noti HDD */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A100000000000000000042 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000000000000000057 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A100000000000000000040 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000000000000000050 /* main.swift in Sources */,
+				A100000000000000000051 /* AppDelegate.swift in Sources */,
+				A100000000000000000052 /* StatusBarController.swift in Sources */,
+				A100000000000000000053 /* DiskMonitor.swift in Sources */,
+				A100000000000000000054 /* LEDStyleWindowController.swift in Sources */,
+				A100000000000000000055 /* LEDView.swift in Sources */,
+				A100000000000000000056 /* AboutWindowController.swift in Sources */,
+			A100000000000000000071 /* EyeExerciseManager.swift in Sources */,
+			A100000000000000000073 /* EyeExerciseOverlay.swift in Sources */,
+			A100000000000000000075 /* EyeExerciseMenuView.swift in Sources */,
+			A100000000000000000077 /* CheckboxMenuView.swift in Sources */,
+			A100000000000000000079 /* SunflowerSeedView_original.swift in Sources */,
+			A10000000000000000007B /* CircularMotionDetector.swift in Sources */,
+			A10000000000000000007D /* ShakeDetector.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A100000000000000000032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A100000000000000000033 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		A100000000000000000034 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Noti HDD/Noti HDD.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Noti HDD/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kadelee.noti-hdd;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+			};
+			name = Debug;
+		};
+		A100000000000000000035 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Noti HDD/Noti HDD.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Noti HDD/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kadelee.noti-hdd;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A100000000000000000030 /* Build configuration list for PBXProject "Noti HDD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000000000000000032 /* Debug */,
+				A100000000000000000033 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A100000000000000000031 /* Build configuration list for PBXNativeTarget "Noti HDD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000000000000000034 /* Debug */,
+				A100000000000000000035 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A100000000000000000001 /* Project object */;
+}
