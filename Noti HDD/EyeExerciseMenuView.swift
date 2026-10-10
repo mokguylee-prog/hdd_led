@@ -193,7 +193,7 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
         speedHint.frame     = NSRect(x: R2.hintX, y: mid, width: R2.hintW, height: 16)
         speedHint.font      = NSFont.systemFont(ofSize: 10)
         speedHint.textColor = .secondaryLabelColor
-        speedHint.toolTip   = "화면의 긴 방향을 끝에서 끝까지 이동하는 시간입니다. 구간이 짧으면 이동 시간도 짧아집니다."
+        speedHint.toolTip   = "화면의 긴 방향을 끝에서 끝까지 이동하는 시간입니다. 구간이 짧으면 이동 시간도 짧아지며, 최소 0.1초입니다."
         speedHint.stringValue = speedDescription(speed)
         addSubview(speedHint)
     }

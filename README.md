@@ -13,9 +13,9 @@
 
 ## Eye Exercise Movement Speed
 
-The default is **level 3**, taking about **6 seconds** to cross the longer dimension of the screen. Movement duration scales with distance so horizontal, vertical, and diagonal paths have the same speed. The rocket pauses for one second at each target.
+The default is **level 3**, taking about **6 seconds** to cross the longer dimension of the screen. Movement duration scales with distance, with a minimum of 0.1 seconds per movement. The rocket pauses for one second at each target.
 
-Adjust levels 1–10 with the menu slider, numeric input, or stepper. Crossing the longer dimension takes about 18 seconds at level 1 and 1.8 seconds at level 10. Settings are saved and changes take effect on the next movement. Preferences from the previous timing scale start with the new default.
+Adjust levels 1–10 with the menu slider, numeric input, or stepper. Crossing the longer dimension takes about 18 seconds at level 1 and 0.1 seconds at level 10. Faster levels offer 0.8, 0.4, 0.2, and 0.1 seconds at levels 7–10. Settings are saved and changes take effect on the next movement. Preferences from the previous timing scale start with the new default.
 
 [CHOP's eye tracking instructions](https://chopib.staywellsolutionsonline.com/Library/Encyclopedia/22%2C36023) suggest starting with three-second movements to each side, and [Mersey Care NHS](https://www.merseycare.nhs.uk/patient-leaflets/balance-and-gait) describes slowly tracking a target. These informed the app's six-second starting value. Actual angular eye velocity depends on display size and viewing distance; this default is not a clinically validated optimal speed.
 
