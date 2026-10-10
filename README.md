@@ -52,5 +52,5 @@ The copied app bundle will be created at:
 ## Notes
 
 - The main app target and scheme name are `Noti HDD`.
-- Debug logs are written to a writable `debug.log` location near the app or current working directory when possible.
+- Debug logs currently go to the console; file logging is disabled.
 - A source backup zip can be created with `./backup.sh`.
