@@ -19,9 +19,10 @@
 		A100000000000000000073 /* EyeExerciseOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000072 /* EyeExerciseOverlay.swift */; };
 		A100000000000000000075 /* EyeExerciseMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000074 /* EyeExerciseMenuView.swift */; };
 		A100000000000000000077 /* CheckboxMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000076 /* CheckboxMenuView.swift */; };
-		A100000000000000000079 /* SunflowerSeedView_original.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000078 /* SunflowerSeedView_original.swift */; };
 		A10000000000000000007B /* CircularMotionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000007A /* CircularMotionDetector.swift */; };
 		A10000000000000000007D /* ShakeDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000007C /* ShakeDetector.swift */; };
+		A10000000000000000007F /* RocketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000007E /* RocketView.swift */; };
+		A100000000000000000081 /* EyeExerciseMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000080 /* EyeExerciseMotion.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +42,8 @@
 		A100000000000000000076 /* CheckboxMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxMenuView.swift; sourceTree = "<group>"; };
 		A10000000000000000007A /* CircularMotionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularMotionDetector.swift; sourceTree = "<group>"; };
 		A10000000000000000007C /* ShakeDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeDetector.swift; sourceTree = "<group>"; };
-		A100000000000000000078 /* SunflowerSeedView_original.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunflowerSeedView_original.swift; sourceTree = "<group>"; };
+		A10000000000000000007E /* RocketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketView.swift; sourceTree = "<group>"; };
+		A100000000000000000080 /* EyeExerciseMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeExerciseMotion.swift; sourceTree = "<group>"; };
 			A100000000000000000020 /* Noti HDD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Noti HDD.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -83,7 +85,8 @@
 			A100000000000000000076 /* CheckboxMenuView.swift */,
 			A10000000000000000007A /* CircularMotionDetector.swift */,
 		A10000000000000000007C /* ShakeDetector.swift */,
-			A100000000000000000078 /* SunflowerSeedView_original.swift */,
+			A10000000000000000007E /* RocketView.swift */,
+			A100000000000000000080 /* EyeExerciseMotion.swift */,
 			);
 				path = "Noti HDD";
 			sourceTree = "<group>";
@@ -176,9 +179,10 @@
 			A100000000000000000073 /* EyeExerciseOverlay.swift in Sources */,
 			A100000000000000000075 /* EyeExerciseMenuView.swift in Sources */,
 			A100000000000000000077 /* CheckboxMenuView.swift in Sources */,
-			A100000000000000000079 /* SunflowerSeedView_original.swift in Sources */,
 			A10000000000000000007B /* CircularMotionDetector.swift in Sources */,
 			A10000000000000000007D /* ShakeDetector.swift in Sources */,
+				A10000000000000000007F /* RocketView.swift in Sources */,
+				A100000000000000000081 /* EyeExerciseMotion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

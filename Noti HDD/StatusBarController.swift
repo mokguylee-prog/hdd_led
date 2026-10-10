@@ -74,9 +74,8 @@ class StatusBarController: NSObject {
             isChecked:          EyeExerciseManager.shared.isEnabled,
             minutes:            EyeExerciseManager.shared.intervalMinutes,
             speed:              EyeExerciseManager.shared.speed,
-            hamsterStyle:       EyeExerciseManager.shared.hamsterStyle,
             movementMode:       EyeExerciseManager.shared.movementMode,
-            hamsterSizePercent: EyeExerciseManager.shared.hamsterSizePercent,
+            rocketSizePercent:  EyeExerciseManager.shared.rocketSizePercent,
             circularEnabled:    EyeExerciseManager.shared.circularDetectorEnabled,
             shakeEnabled:       EyeExerciseManager.shared.shakeDetectorEnabled
         )
@@ -84,9 +83,8 @@ class StatusBarController: NSObject {
         eyeView.onMinutesChange           = { minutes in EyeExerciseManager.shared.intervalMinutes = minutes }
         eyeView.onSpeedChange             = { speed   in EyeExerciseManager.shared.speed = speed }
         eyeView.onPreview                 = { EyeExerciseManager.shared.showOverlay() }
-        eyeView.onHamsterStyleChange      = { style   in EyeExerciseManager.shared.hamsterStyle = style }
         eyeView.onMovementModeChange      = { mode    in EyeExerciseManager.shared.movementMode = mode }
-        eyeView.onHamsterSizeChange       = { percent in EyeExerciseManager.shared.hamsterSizePercent = percent }
+        eyeView.onRocketSizeChange        = { percent in EyeExerciseManager.shared.rocketSizePercent = percent }
         eyeView.onCircularDetectorChange  = { enabled in EyeExerciseManager.shared.circularDetectorEnabled = enabled }
         eyeView.onShakeDetectorChange     = { enabled in EyeExerciseManager.shared.shakeDetectorEnabled = enabled }
         eyeItem.view = eyeView

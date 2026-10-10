@@ -5,9 +5,8 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
     var onMinutesChange: ((Int) -> Void)?
     var onSpeedChange: ((Int) -> Void)?
     var onPreview: (() -> Void)?
-    var onHamsterStyleChange: ((String) -> Void)?
     var onMovementModeChange: ((String) -> Void)?
-    var onHamsterSizeChange: ((Int) -> Void)?
+    var onRocketSizeChange: ((Int) -> Void)?
     var onCircularDetectorChange: ((Bool) -> Void)?
     var onShakeDetectorChange:    ((Bool) -> Void)?
 
@@ -19,9 +18,8 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
     private let speedLabel:     NSTextField
     private let speedField:     NSTextField
     private let speedStepper:   NSStepper
+    private let speedSlider:    NSSlider
     private let speedHint:      NSTextField
-    private let styleDrawnBtn:    NSButton
-    private let stylePhotoBtn:    NSButton
     private let moveLabel:        NSTextField
     private let moveDefaultBtn:   NSButton
     private let moveRandomBtn:    NSButton
@@ -29,54 +27,53 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
     private let sizePercentLabel:   NSTextField
     private let circularCheckBox:   NSButton
     private let shakeCheckBox:      NSButton
-    private let drawnThumbnailInset: CGFloat = 8
-    private let photoThumbnailInset: CGFloat = 5
 
     // 행 1: Eye Exercises 체크 + 분 설정(3자리) + 바로확인
-    // 행 2: 속도 설정
-    // 행 S: 햄스터크기 슬라이더
-    // 행 3: ○ 그림  [햄스터 그림 썸네일]
-    // 행 4: ○ 사진  [햄스터 사진 썸네일]
+    // 행 2: 이동 속도 숫자 설정 + 이동 시간 표시
+    // 행 2S: 이동 속도 슬라이더
+    // 행 S: 로켓크기 슬라이더
+    // 행 3: 나로호 [로켓 미리보기]
     // 행 5: 이동: ○ Default  ○ Random
     static let viewWidth:  CGFloat = 260
-    static let viewHeight: CGFloat = 264
+    static let viewHeight: CGFloat = 184
 
-    private enum R1 {   // Row 1  (y=240..264)
-        static let y: CGFloat = 240;  static let h: CGFloat = 24
+    private enum R1 {   // Row 1  (y=160..184)
+        static let y: CGFloat = 160;  static let h: CGFloat = 24
         static let checkX: CGFloat = 14;  static let checkW: CGFloat = 100
         static let fieldX: CGFloat = 118; static let fieldW: CGFloat = 44
         static let stepX:  CGFloat = 164; static let stepW:  CGFloat = 15
         static let unitX:  CGFloat = 181; static let unitW:  CGFloat = 16
         static let prevX:  CGFloat = 198; static let prevW:  CGFloat = 62
     }
-    private enum R2 {   // Row 2  (y=216..238)
-        static let y: CGFloat = 216;  static let h: CGFloat = 22
-        static let labelX: CGFloat = 18; static let labelW: CGFloat = 30
-        static let fieldX: CGFloat = 52; static let fieldW: CGFloat = 44
-        static let stepX:  CGFloat = 98; static let stepW:  CGFloat = 15
-        static let hintX:  CGFloat = 116; static let hintW: CGFloat = 135
+    private enum R2 {   // Row 2  (y=136..158)
+        static let y: CGFloat = 136;  static let h: CGFloat = 22
+        static let labelX: CGFloat = 18; static let labelW: CGFloat = 52
+        static let fieldX: CGFloat = 74; static let fieldW: CGFloat = 30
+        static let stepX:  CGFloat = 107; static let stepW: CGFloat = 15
+        static let hintX: CGFloat = 127; static let hintW: CGFloat = 126
     }
-    private enum RS {   // Row Size  (y=192..214)  햄스터크기 슬라이더
-        static let y: CGFloat = 192;  static let h: CGFloat = 22
+    private enum R2S {   // Row Speed Slider  (y=112..134)
+        static let y: CGFloat = 112; static let h: CGFloat = 22
+        static let labelX: CGFloat = 18; static let labelW: CGFloat = 24
+        static let sliderX: CGFloat = 46; static let sliderW: CGFloat = 167
+        static let fastX: CGFloat = 219
+    }
+    private enum RS {   // Row Size  (y=88..110)  로켓크기 슬라이더
+        static let y: CGFloat = 88;  static let h: CGFloat = 22
         static let labelX:   CGFloat = 18;  static let labelW:   CGFloat = 64
         static let percentX: CGFloat = 84;  static let percentW: CGFloat = 36
         static let sliderX:  CGFloat = 123; static let sliderW:  CGFloat = 126
     }
-    private enum RP {   // Row Pause  (y=168..190)  일시정지 트리거
-        static let y: CGFloat = 168;  static let h: CGFloat = 22
+    private enum RP {   // Row Pause  (y=64..86)  일시정지 트리거
+        static let y: CGFloat = 64;  static let h: CGFloat = 22
         static let labelX:  CGFloat = 18; static let labelW:  CGFloat = 50
         static let check1X: CGFloat = 70; static let check1W: CGFloat = 90
         static let check2X: CGFloat = 162; static let check2W: CGFloat = 80
     }
-    private enum R3 {   // Row 3  (y=96..164)  그림 + 썸네일
-        static let y: CGFloat = 96;  static let h: CGFloat = 68
-        static let radioX: CGFloat = 14; static let radioW: CGFloat = 60
-        static let imgX: CGFloat = 78; static let imgSize: CGFloat = 60
-    }
-    private enum R4 {   // Row 4  (y=26..94)  사진 + 썸네일
-        static let y: CGFloat = 26;  static let h: CGFloat = 68
-        static let radioX: CGFloat = 14; static let radioW: CGFloat = 60
-        static let imgX: CGFloat = 78; static let imgSize: CGFloat = 60
+    private enum R3 {   // Row 3  (y=26..62)  나로호 로켓 미리보기
+        static let y: CGFloat = 26;  static let h: CGFloat = 36
+        static let labelX: CGFloat = 18; static let labelW: CGFloat = 60
+        static let imgX: CGFloat = 84; static let imgSize: CGFloat = 32
     }
     private enum R5 {   // Row 5  (y=4..24)  이동 방향
         static let y: CGFloat = 4;  static let h: CGFloat = 20
@@ -85,34 +82,33 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
         static let btn2X:  CGFloat = 123
     }
 
-    init(isChecked: Bool, minutes: Int, speed: Int, hamsterStyle: String,
-         movementMode: String, hamsterSizePercent: Int,
+    init(isChecked: Bool, minutes: Int, speed: Int,
+         movementMode: String, rocketSizePercent: Int,
          circularEnabled: Bool, shakeEnabled: Bool) {
         checkBox         = NSButton(checkboxWithTitle: "Eye Exercises", target: nil, action: nil)
         minuteField      = NSTextField(frame: .zero)
         minuteStepper    = NSStepper(frame: .zero)
         unitLabel        = NSTextField(labelWithString: "분")
         previewButton    = NSButton(title: "바로확인", target: nil, action: nil)
-        speedLabel       = NSTextField(labelWithString: "속도:")
+        speedLabel       = NSTextField(labelWithString: "이동속도:")
         speedField       = NSTextField(frame: .zero)
         speedStepper     = NSStepper(frame: .zero)
-        speedHint        = NSTextField(labelWithString: "1(느림) ~ 10(빠름)")
-        styleDrawnBtn    = NSButton(radioButtonWithTitle: "그림", target: nil, action: nil)
-        stylePhotoBtn    = NSButton(radioButtonWithTitle: "사진", target: nil, action: nil)
+        speedSlider      = NSSlider(frame: .zero)
+        speedHint        = NSTextField(labelWithString: "")
         moveLabel        = NSTextField(labelWithString: "이동:")
         moveDefaultBtn   = NSButton(radioButtonWithTitle: "Default", target: nil, action: nil)
         moveRandomBtn    = NSButton(radioButtonWithTitle: "Random", target: nil, action: nil)
         sizeSlider       = NSSlider(frame: .zero)
-        sizePercentLabel = NSTextField(labelWithString: "\(hamsterSizePercent)%")
+        sizePercentLabel = NSTextField(labelWithString: "\(rocketSizePercent)%")
         circularCheckBox = NSButton(checkboxWithTitle: "원형동작", target: nil, action: nil)
         shakeCheckBox    = NSButton(checkboxWithTitle: "흔들기", target: nil, action: nil)
         super.init(frame: NSRect(x: 0, y: 0, width: Self.viewWidth, height: Self.viewHeight))
         setupRow1(isChecked: isChecked, minutes: minutes)
         setupRow2(speed: speed)
-        setupSizeRow(sizePercent: hamsterSizePercent)
+        setupSpeedSlider(speed: speed)
+        setupSizeRow(sizePercent: rocketSizePercent)
         setupPauseRow(circularEnabled: circularEnabled, shakeEnabled: shakeEnabled)
-        setupRow3(hamsterStyle: hamsterStyle)
-        setupRow4(hamsterStyle: hamsterStyle)
+        setupRocketRow()
         setupRow5(movementMode: movementMode)
     }
 
@@ -124,6 +120,7 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
         let mid = R1.y + (R1.h - 20) / 2
 
         checkBox.frame  = NSRect(x: R1.checkX, y: mid, width: R1.checkW, height: 20)
+        checkBox.font   = NSFont.systemFont(ofSize: 11)
         checkBox.state  = isChecked ? .on : .off
         checkBox.target = self; checkBox.action = #selector(toggled)
         addSubview(checkBox)
@@ -172,7 +169,7 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
         addSubview(speedLabel)
 
         speedField.frame       = NSRect(x: R2.fieldX, y: R2.y + 2, width: R2.fieldW, height: 18)
-        speedField.stringValue = "\(max(1, min(10, speed)))"
+        speedField.stringValue = "\(EyeExerciseMotion.clampedSpeed(speed))"
         speedField.isEditable  = true
         speedField.isBezeled   = true
         speedField.bezelStyle  = .roundedBezel
@@ -188,23 +185,60 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
 
         speedStepper.frame        = NSRect(x: R2.stepX, y: R2.y + 1, width: R2.stepW, height: 20)
         speedStepper.minValue     = 1; speedStepper.maxValue = 10
-        speedStepper.increment    = 1; speedStepper.integerValue = max(1, min(10, speed))
+        speedStepper.increment    = 1; speedStepper.integerValue = EyeExerciseMotion.clampedSpeed(speed)
         speedStepper.valueWraps   = false
         speedStepper.target       = self; speedStepper.action = #selector(speedStepperChanged)
         addSubview(speedStepper)
 
         speedHint.frame     = NSRect(x: R2.hintX, y: mid, width: R2.hintW, height: 16)
         speedHint.font      = NSFont.systemFont(ofSize: 10)
-        speedHint.textColor = NSColor(white: 0.55, alpha: 1)
+        speedHint.textColor = .secondaryLabelColor
+        speedHint.toolTip   = "화면의 긴 방향을 끝에서 끝까지 이동하는 시간입니다. 구간이 짧으면 이동 시간도 짧아집니다."
+        speedHint.stringValue = speedDescription(speed)
         addSubview(speedHint)
     }
 
-    // MARK: - Row Size (햄스터크기 슬라이더)
+    private func setupSpeedSlider(speed: Int) {
+        for (text, x) in [("느림", R2S.labelX), ("빠름", R2S.fastX)] {
+            let label = NSTextField(labelWithString: text)
+            label.frame = NSRect(x: x, y: R2S.y + 3, width: R2S.labelW, height: 16)
+            label.font = NSFont.systemFont(ofSize: 10)
+            label.textColor = .secondaryLabelColor
+            addSubview(label)
+        }
+        speedSlider.frame = NSRect(x: R2S.sliderX, y: R2S.y,
+                                   width: R2S.sliderW, height: R2S.h)
+        speedSlider.minValue = 1
+        speedSlider.maxValue = 10
+        speedSlider.numberOfTickMarks = 10
+        speedSlider.allowsTickMarkValuesOnly = true
+        speedSlider.isContinuous = true
+        speedSlider.integerValue = EyeExerciseMotion.clampedSpeed(speed)
+        speedSlider.setAccessibilityLabel("눈운동 이동 속도")
+        speedSlider.target = self
+        speedSlider.action = #selector(speedSliderChanged)
+        addSubview(speedSlider)
+    }
+
+    private func speedDescription(_ speed: Int) -> String {
+        String(format: "한 번 약 %.1f초", EyeExerciseMotion.crossingDuration(speed: speed))
+    }
+
+    private func changeSpeed(_ value: Int) {
+        let speed = EyeExerciseMotion.clampedSpeed(value)
+        speedField.stringValue = "\(speed)"
+        speedStepper.integerValue = speed
+        speedSlider.integerValue = speed
+        speedHint.stringValue = speedDescription(speed)
+        onSpeedChange?(speed)
+    }
+
+    // MARK: - Row Size (로켓크기 슬라이더)
 
     private func setupSizeRow(sizePercent: Int) {
         let mid = RS.y + (RS.h - 16) / 2
 
-        let label = NSTextField(labelWithString: "햄스터크기:")
+        let label = NSTextField(labelWithString: "로켓크기:")
         label.frame     = NSRect(x: RS.labelX, y: mid, width: RS.labelW, height: 16)
         label.font      = NSFont.systemFont(ofSize: 11)
         label.textColor = .secondaryLabelColor
@@ -249,65 +283,21 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
         addSubview(shakeCheckBox)
     }
 
-    // MARK: - Row 3 (그림 + 햄스터 그림 썸네일)
+    // MARK: - Row 3 (나로호 로켓 미리보기)
 
-    private func setupRow3(hamsterStyle: String) {
-        let mid = R3.y + (R3.h - 18) / 2
+    private func setupRocketRow() {
+        let label = NSTextField(labelWithString: "나로호")
+        label.frame = NSRect(x: R3.labelX, y: R3.y + (R3.h - 16) / 2,
+                             width: R3.labelW, height: 16)
+        label.font = NSFont.systemFont(ofSize: 11)
+        label.textColor = .secondaryLabelColor
+        addSubview(label)
 
-        styleDrawnBtn.frame  = NSRect(x: R3.radioX, y: mid, width: R3.radioW, height: 18)
-        styleDrawnBtn.font   = NSFont.systemFont(ofSize: 11)
-        styleDrawnBtn.state  = (hamsterStyle == "drawn") ? .on : .off
-        styleDrawnBtn.target = self; styleDrawnBtn.action = #selector(styleDrawnSelected)
-        addSubview(styleDrawnBtn)
-
-        let container = makeThumbnailContainer(
-            frame: NSRect(x: R3.imgX, y: R3.y + 4, width: R3.imgSize, height: R3.imgSize)
-        )
-        addSubview(container)
-
-        let hamView = HamsterView(frame: container.bounds.insetBy(dx: drawnThumbnailInset, dy: drawnThumbnailInset))
-        hamView.wantsLayer = true
-        container.addSubview(hamView)
-    }
-
-    // MARK: - Row 4 (사진 + 햄스터 사진 썸네일)
-
-    private func setupRow4(hamsterStyle: String) {
-        let mid = R4.y + (R4.h - 18) / 2
-
-        stylePhotoBtn.frame  = NSRect(x: R4.radioX, y: mid, width: R4.radioW, height: 18)
-        stylePhotoBtn.font   = NSFont.systemFont(ofSize: 11)
-        stylePhotoBtn.state  = (hamsterStyle == "photo") ? .on : .off
-        stylePhotoBtn.target = self; stylePhotoBtn.action = #selector(stylePhotoSelected)
-        addSubview(stylePhotoBtn)
-
-        let side = R4.imgSize
-        let container = makeThumbnailContainer(frame: NSRect(x: R4.imgX, y: R4.y + 4, width: side, height: side))
-        addSubview(container)
-
-        if let img = NSImage(named: "hamster_photo") {
-            let s = img.size
-            guard s.width > 0, s.height > 0 else { return }
-            let contentRect = container.bounds.insetBy(dx: photoThumbnailInset, dy: photoThumbnailInset)
-            let scale = min(contentRect.width / s.width, contentRect.height / s.height)
-            let fw = s.width * scale
-            let fh = s.height * scale
-            let iv = NSImageView(frame: NSRect(x: contentRect.midX - fw / 2, y: contentRect.midY - fh / 2,
-                                               width: fw, height: fh))
-            iv.image = img
-            iv.imageScaling = .scaleProportionallyUpOrDown
-            container.addSubview(iv)
-        }
-    }
-
-    private func makeThumbnailContainer(frame: NSRect) -> NSView {
-        let container = NSView(frame: frame)
-        container.wantsLayer = true
-        container.layer?.cornerRadius = 8
-        container.layer?.borderWidth = 0.5
-        container.layer?.borderColor = NSColor.separatorColor.cgColor
-        container.layer?.masksToBounds = true
-        return container
+        let rocket = RocketView(frame: NSRect(x: R3.imgX, y: R3.y + (R3.h - R3.imgSize) / 2,
+                                       width: R3.imgSize, height: R3.imgSize))
+        rocket.setAccessibilityRole(.image)
+        rocket.setAccessibilityLabel("나로호 로켓 미리보기")
+        addSubview(rocket)
     }
 
     // MARK: - Row 5 (이동 방향)
@@ -344,19 +334,7 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
     @objc private func sizeSliderChanged() {
         let v = sizeSlider.integerValue
         sizePercentLabel.stringValue = "\(v)%"
-        onHamsterSizeChange?(v)
-    }
-
-    @objc private func styleDrawnSelected() {
-        styleDrawnBtn.state = .on
-        stylePhotoBtn.state = .off
-        onHamsterStyleChange?("drawn")
-    }
-
-    @objc private func stylePhotoSelected() {
-        styleDrawnBtn.state = .off
-        stylePhotoBtn.state = .on
-        onHamsterStyleChange?("photo")
+        onRocketSizeChange?(v)
     }
 
     @objc private func moveDefaultSelected() {
@@ -375,9 +353,10 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
     }
 
     @objc private func speedStepperChanged() {
-        let v = speedStepper.integerValue
-        speedField.stringValue = "\(v)"; onSpeedChange?(v)
+        changeSpeed(speedStepper.integerValue)
     }
+
+    @objc private func speedSliderChanged() { changeSpeed(speedSlider.integerValue) }
 
     // MARK: - NSTextFieldDelegate
 
@@ -388,9 +367,7 @@ class EyeExerciseMenuView: NSView, NSTextFieldDelegate {
             field.stringValue = "\(v)"; minuteStepper.integerValue = v
             onMinutesChange?(v)
         } else if field.tag == 2 {
-            let v = max(1, min(10, Int(field.stringValue) ?? 3))
-            field.stringValue = "\(v)"; speedStepper.integerValue = v
-            onSpeedChange?(v)
+            changeSpeed(Int(field.stringValue) ?? EyeExerciseMotion.defaultSpeed)
         }
     }
 

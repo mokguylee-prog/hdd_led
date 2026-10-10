@@ -1,399 +1,59 @@
 # Noti HDD 앱 개발 세션 로그
 
-**날짜**: 2026-03-14
+**최근 갱신일**: 2026-10-10 (Asia/Seoul)
 **프로젝트**: `Noti HDD`
-**앱**: macOS 메뉴바 앱 (디스크 활동 LED + 눈운동 햄스터 오버레이)
+**앱**: macOS 메뉴바 앱 (디스크 활동 LED + 눈운동 나로호 로켓 오버레이)
 
----
+## 2026-10-10 현재 상태
 
-## 1. 씨앗 이미지 교체
+### 완료한 변경
 
-### 요청
-> 씨앗이미지를 교체할꺼야, 사진에서 씨앗만 추출해서 사용하고, 현재 있는 씨앗은 버리지 말고 다른 파일로 저장해둬
+- `./buildrun.sh`로 Release 빌드, 프로젝트 루트의 `Noti HDD.app` 갱신, 앱 실행을 확인했습니다.
+- 메뉴 미리보기와 실제 눈운동 화면에 나로호 형태의 로켓을 적용했습니다.
+- `RocketView.swift`에서 로켓을 코드로 그립니다. 메뉴의 나로호 미리보기와 눈운동 화면에서 같은 뷰를 사용하며, 이동 중에는 로켓이 진행 방향을 향합니다.
+- 크기 슬라이더를 로켓 기준으로 변경했습니다. 범위는 10~100%, 기본값은 50%이며 기본 프레임 크기는 50pt입니다.
+- 사용하지 않는 에셋과 그리기 코드를 삭제했습니다. 이동 목표는 작은 점으로 표시합니다.
+- `Assets.xcassets/AppIcon.appiconset/`의 이미지 10개를 큐브 아이콘으로 교체했습니다. imagegen 내장 도구로 원본을 생성한 뒤, 에셋 카탈로그에 필요한 16~1024px 크기로 변환했습니다.
+- README 한국어·영어 설명과 Xcode 소스 등록을 현재 로켓 구성에 맞췄습니다.
+- 마지막 로켓·큐브 변경의 Release 빌드와 앱 재실행이 성공했습니다. 로켓을 32/50/100pt와 두 방향으로 렌더링해 형태를 확인했습니다.
 
-### 작업 내용
+### 현재 요청과 진행 순서
 
-**배경**
-- 기존 씨앗(`SunflowerSeedView`)은 Swift 코드로 직접 그린 Bezier Path 기반
-- 사용자가 제공한 해바라기씨 일러스트 이미지 사용 요청
+사용자 요청: 눈운동 이동 속도의 근거를 확인하고 기본 속도를 조정하며, 메뉴바에 이동 속도 슬라이더를 추가합니다. 이어서 빌드·실행하고 GitHub에 공개로 게시합니다. 사용자의 추가 지시에 따라 이 로그를 먼저 갱신한 뒤 구현을 진행합니다.
 
-**씨앗 이미지 파일 위치 확인**
-- `~/Downloads/1773492538509.jpg` — 사용자가 채팅에 공유한 씨앗 이미지
-
-**배경 제거 과정 (Python/Pillow)**
-```python
-# 1단계: 흰색 배경 flood fill 제거
-# 2단계: 회색 타원형 그림자 제거
-# 3단계: 투명 여백 crop
-# 결과: 719 x 847 px PNG (투명 배경)
-```
-
-**저장 경로**
-- 추출된 씨앗: `Noti HDD/Assets.xcassets/sunflower_seed.imageset/sunflower_seed.png`
-- 기존 코드 백업: `Noti HDD/SunflowerSeedView_original.swift` (클래스명 `SunflowerSeedView_Original`로 변경)
-
-**코드 변경** (`EyeExerciseOverlay.swift`)
-```swift
-// placeSeed() 에서 SunflowerSeedView 직접 생성 → makeSeedView() 호출로 변경
-private func makeSeedView(frame: NSRect) -> NSView {
-    if let img = NSImage(named: "sunflower_seed") {
-        let iv = NSImageView(frame: frame)
-        iv.image = img
-        iv.imageScaling = .scaleProportionallyUpOrDown
-        iv.wantsLayer = true
-        return iv
-    } else {
-        return SunflowerSeedView(frame: frame)  // 폴백
-    }
-}
-```
-
----
-
-## 2. 메뉴 그림/사진 버튼 → 실제 이미지 썸네일로 교체 + 시간 3자리 지원
-
-### 요청
-> 그림 바로보기 / 사진 바로보기 로 되어 있는데 내가원하는 것은 버튼이 아니라 실제 이미지가 나와야해
-> 그리고 시간설정도 3자리까지 들어갈꺼야 현재 1자리만 보여. 수정 요망
-
-### 작업 내용
-
-**EyeExerciseMenuView.swift 전면 재설계**
-
-| 항목 | 변경 전 | 변경 후 |
-|------|--------|--------|
-| 그림 행 | "바로확인" 버튼 | HamsterView 60×60 썸네일 |
-| 사진 행 | "바로확인" 버튼 | hamster_photo NSImageView 60×60 썸네일 |
-| minuteField 너비 | 34px (1~2자리) | 44px (3자리 지원) |
-| viewHeight | 122px | 214px |
-
-**레이아웃 구조 (y 좌표는 하단 기준)**
-```
-R1 (y=190): Eye Exercises ✓  [___44___] ↕ 분  [바로확인]
-R2 (y=166): 속도: [__] ↕  1(느림)~10(빠름)
-R3 (y=96):  ○ 그림  [HamsterView 60×60]
-R4 (y=26):  ○ 사진  [hamster_photo 60×60]
-R5 (y=4):   이동: ○ Default  ○ Random
-```
-
----
-
-## 3. 사진 썸네일 꽉차게 (Aspect Fill)
-
-### 요청
-> 사진 썸네일 꽉차게 수정해주세요. 한쪽으로 치우쳐있어
-
-### 원인
-`scaleProportionallyUpOrDown` 사용 → 세로 사진이 60×60 프레임에서 45×60으로 표시되어 좌우 공백 발생
-
-### 해결
-```swift
-// 클리핑 컨테이너 + Aspect Fill
-let container = NSView(frame: ...)
-container.wantsLayer = true
-container.layer?.cornerRadius = 8
-container.layer?.masksToBounds = true
-
-let scale = max(side / img.size.width, side / img.size.height)
-let fw = img.size.width * scale
-let fh = img.size.height * scale
-let iv = NSImageView(frame: NSRect(
-    x: (side - fw) / 2, y: (side - fh) / 2,
-    width: fw, height: fh
-))
-iv.imageScaling = .scaleAxesIndependently
-container.addSubview(iv)
-```
-
----
-
-## 4. 코드 햄스터 크기 0.6배
-
-### 요청
-> 그림으로된 햄스터가 너무 커, 0.6배로 줄여줘
-
-### 변경
-```swift
-// EyeExerciseOverlay.swift
-private let size: CGFloat = 250  →  private let size: CGFloat = 150  // 250 * 0.6
-```
-
----
-
-## 5. 그림 햄스터 크기를 사진 원본 크기와 동일하게
-
-### 요청
-> 그림 이미지의 크기를 사진 원본이미지의 크기와 동일하게 맞춰줘
-
-### 배경
-0.6배 변경 시 `size` 변수를 공유해 사진도 같이 150으로 축소됨 → 사진도 의도치 않게 작아진 상태
-
-### 변경
-```swift
-private let size: CGFloat = 150  →  private let size: CGFloat = 250  // 원래 크기로 복원
-```
-
----
-
-## 6. 코드/사진 햄스터 크기 확인
-
-### 요청
-> 코드로 만든 햄스터 그림의 크기를 확인하고 hamster_photo.png 크기를 확인해줘
-
-### 결과
-| 항목 | 크기 |
+| 단계 | 상태 |
 |------|------|
-| HamsterView 프레임 | 250 × 250 pt |
-| hamster_photo.png 원본 | 3024 × 4032 px |
-| hamster_photo.png 오버레이 표시 | 약 188 × 250 pt (비율 유지, 좌우 공백 발생) |
+| 이번 세션의 변경 내용과 현재 요청을 로그에 반영 | 완료 |
+| 눈운동 관련 자료 조사와 기존 속도 계산 확인 | 완료 |
+| 기본 이동 속도 조정 및 이동 속도 슬라이더 추가 | 완료 |
+| 변경 후 검증, Release 빌드 및 앱 실행 | 완료 |
+| 변경 사항 커밋·푸시 및 GitHub 저장소 공개 전환 | 예정 |
 
----
+이동 속도는 1~10 단계이며 새 기본값은 3입니다. 화면의 긴 방향 이동 시간은 `18 / speed`초로, 기본값에서 약 6초입니다. `EyeExerciseMotion.swift`에서 이동 거리 비율에 맞춰 구간 시간을 계산하고, 오버레이는 일정한 속도로 이동합니다. 목표점에서는 1초 대기합니다. 이전 기본 구간 시간 2.41초보다 느리게 시작하며, 새 속도 설정은 `eyeExerciseMovementSpeed`에 저장합니다.
 
-## 7. hamster_photo.png 여백 제거 (투명 영역 crop)
+메뉴에 이동 속도 슬라이더를 추가하고 숫자 입력·스테퍼·예상 이동 시간 표시를 동기화했습니다. 일시정지와 종료 시 진행 중이던 애니메이션의 완료 콜백이 다음 이동을 예약하지 않도록 정리했습니다.
 
-### 요청
-> hamster_photo.png 파일에서 햄스터만 남도록 여백을 제거해줘
+기본값의 참고 자료는 [CHOP의 눈 추적 운동 안내](https://chopib.staywellsolutionsonline.com/Library/Encyclopedia/22%2C36023)와 [Mersey Care NHS의 안내](https://www.merseycare.nhs.uk/patient-leaflets/balance-and-gait)입니다. 천천히 추적하는 방식과 한쪽 방향 약 3초를 참고해 앱의 시작값을 설정했습니다. 화면 전체 이동 약 6초는 앱 설계값이며, 임상적으로 검증된 최적 속도를 뜻하지 않습니다.
 
-### 작업
-```python
-# 투명(alpha=0) 여백 자동 crop
-img = Image.open(src)
-bbox = img.getbbox()   # (1155, 697, 2909, 2862)
-cropped = img.crop(bbox)
-# 결과: 3024×4032 → 1754×2165
-```
+검증 결과: 기본 6초, 속도 1~10의 순서, 가로·세로·대각선의 속도 일치, 설정 범위 처리를 확인했습니다. 메뉴 슬라이더·숫자 입력·스테퍼와 콜백 동기화, 새 기본 설정과 저장, 일시정지 중 위치 유지, 재개 시 표시 해제, 종료 후 이동이 다시 예약되지 않는 동작도 확인했습니다. 밝은/어두운 메뉴를 렌더링해 배치와 글자 표시를 확인했으며, Release 빌드와 앱 실행이 성공했습니다.
 
-**원본 백업**: `hamster_photo_original.png`
+GitHub 원격 저장소는 `https://github.com/mokguylee-prog/hdd_led`이며, 조회 당시에는 PRIVATE였습니다. 현재 계정의 ADMIN 권한과 `main` 브랜치 연결을 확인했습니다. 사용자가 공개 게시를 요청했으므로 검증을 마친 변경 사항을 올리고 PUBLIC으로 전환할 예정입니다. 앞서 완료한 로켓·큐브·에셋 정리 변경도 함께 포함합니다.
 
----
+### 현재 프로젝트 구성
 
-## 8. hamster_photo.png 정사각형으로 변환 (중앙 정렬)
-
-### 요청
-> hamster_photo.png 크기를 가로 2165px 로 변경하고 이미지는 중앙으로 변경해줘
-
-### 작업
-```python
-# 1754×2165 → 2165×2165 (정사각형, 투명 캔버스에 중앙 배치)
-canvas = Image.new('RGBA', (2165, 2165), (0, 0, 0, 0))
-x_offset = (2165 - 1754) // 2  # = 205px
-canvas.paste(img, (x_offset, 0))
-```
-
-**결과**: 햄스터가 좌우 205px 투명 여백으로 중앙 정렬된 2165×2165 정사각형
-
----
-
-## 9. 메뉴에 햄스터 크기 슬라이더 추가
-
-### 요청
-> 매뉴 컨텍스트에 햄스터 키기를 비율로 조절할수 있게 가로 슬라이드 바로 만들어줘, 현재 크기를 50%로해.
-
-### 변경 파일: 4개
-
-**EyeExerciseManager.swift** — 크기 속성 추가
-```swift
-var hamsterSizePercent: Int = 50 {
-    didSet {
-        let clamped = max(10, min(100, hamsterSizePercent))
-        hamsterSizePercent = clamped
-        UserDefaults.standard.set(clamped, forKey: "eyeExerciseHamsterSizePercent")
-    }
-}
-var hamsterSize: CGFloat { CGFloat(hamsterSizePercent) / 100.0 * 400.0 }
-// 50% = 200pt, 100% = 400pt, 10% = 40pt
-```
-
-**EyeExerciseOverlay.swift** — size를 Manager에서 읽기
-```swift
-private let size: CGFloat   // 기존 고정값 제거
-init(screen: NSScreen, animates: Bool) {
-    size = EyeExerciseManager.shared.hamsterSize  // init에서 읽기
-    ...
-}
-```
-
-**EyeExerciseMenuView.swift** — 슬라이더 행(RS) 추가
-```
-RS (y=168): 크기: [50%] [━━━━━━━━━━━━━━━]
-```
-```swift
-var onHamsterSizeChange: ((Int) -> Void)?
-// NSSlider: min=10, max=100, default=50
-// 슬라이더 변경 시 퍼센트 레이블 실시간 업데이트
-```
-
-**StatusBarController.swift** — 콜백 연결
-```swift
-eyeView.onHamsterSizeChange = { percent in
-    EyeExerciseManager.shared.hamsterSizePercent = percent
-}
-```
-
-**레이아웃 (업데이트 후, viewHeight=240)**
-```
-R1 (y=216): Eye Exercises ✓  [___] ↕ 분  [바로확인]
-R2 (y=192): 속도: [__] ↕  1(느림)~10(빠름)
-RS (y=168): 크기: [50%] [슬라이더━━━━━━━]
-R3 (y=96):  ○ 그림  [HamsterView 60×60]
-R4 (y=26):  ○ 사진  [hamster_photo 60×60]
-R5 (y=4):   이동: ○ Default  ○ Random
-```
-
----
-
-## 10. 마우스 원형 동작 → 오버레이 Pause / 키보드 → Go
-
-### 요청
-> 마우스 원형동작을 하면 Overlay Pause 상태로 해주고, 키보드 누르면 go상태로 변경해줘
-
-### 구현 (`EyeExerciseOverlay.swift`)
-
-**추가된 프로퍼티**
-```swift
-private var mouseMonitor: Any?
-private var isPaused = false
-private var mousePoints: [NSPoint] = []
-private var pauseLabel: NSTextField?
-```
-
-**키 모니터 변경**
-```swift
-keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
-    guard let self else { return event }
-    if event.keyCode == 53 { self.onDismiss?(); return nil }  // ESC → 종료
-    if self.isPaused { self.resumeAnimation(); return nil }   // 아무 키 → GO
-    return event
-}
-```
-
-**원형 감지 알고리즘 (초기)**
-```
-조건 1: 평균 반지름 > 60px
-조건 2: 반지름 변동계수(CV) < 28%
-조건 3: 누적 회전각 ≥ 270°
-```
-
-**Pause/Resume 메서드**
-```swift
-func pauseAnimation() {
-    isPaused = true
-    moveTimer?.invalidate()
-    // 화면 중앙에 "⏸ PAUSE" 메시지 표시
-}
-func resumeAnimation() {
-    isPaused = false
-    hidePauseIndicator()
-    scheduleMoveAfterPause()
-}
-```
-
-**PAUSE 인디케이터 (화면 중앙)**
-```
-⏸  PAUSE
-마우스 원형 동작 감지됨
-키보드를 누르면 재개
-```
-
----
-
-## 11. 원형 감지 조건 완화
-
-### 요청
-> 마우스로 원을 그리기는 어려워, 2번 50% 조건으로 변경하면 좀더 원형이 아닌 동작을 인식하는건가?
-
-### 답변
-CV 50%로 올리면 타원, 불규칙한 원도 인식됨 → 함께 각도 조건도 완화
-
-| 조건 | 이전 | 변경 |
-|------|------|------|
-| CV (반지름 변동) | < 28% | < **50%** |
-| 회전각 | ≥ 270° | ≥ **200°** |
-
----
-
-## 12. 감지 방식 교체 — 원형 → 흔들기(Shake) 감지
-
-### 요청
-> 현재 마우스 돌리면 마우스 포인터가 확대 되거든 이 이벤트를 받아서 pause 동작을 트리거 시킵시다.
-
-### 배경
-macOS의 **"포인터 흔들어 찾기"** 기능과 동일한 감지 조건 사용
-→ 빠른 방향 전환(velocity 벡터 반전)을 카운트
-
-### 교체된 알고리즘
-
-**이전**: 복잡한 원형 기하학 계산 (centroid, 반지름, 누적 각도)
-**이후**: 속도 벡터 반전 카운트
-
-```swift
-private var lastMousePt: NSPoint = .zero
-private var prevVelocity: CGPoint = .zero
-private var shakeReversals: [Date] = []
-
-func handleMouseMoved(_ pt: NSPoint) {
-    let vel = CGPoint(x: pt.x - lastMousePt.x, y: pt.y - lastMousePt.y)
-    let speed = hypot(vel.x, vel.y)
-
-    guard speed > 8 else { return }  // 느린 이동 무시
-
-    // 내적 < 0 → 방향 반전
-    let dot = vel.x * prevVelocity.x + vel.y * prevVelocity.y
-    if hypot(prevVelocity.x, prevVelocity.y) > 8 && dot < 0 {
-        shakeReversals.append(Date())
-        // 0.6초 이내 반전만 유지
-        shakeReversals = shakeReversals.filter { ... < 0.6 }
-
-        if shakeReversals.count >= 3 {
-            // → PAUSE 트리거
-        }
-    }
-    prevVelocity = vel
-}
-```
-
-**감지 조건 요약**
-| 조건 | 값 |
-|------|-----|
-| 최소 이동 속도 | 8px/event |
-| 반전 횟수 | 3회 이상 |
-| 시간 윈도우 | 0.6초 이내 |
-
----
-
-## 변경된 파일 목록
-
-| 파일 | 변경 내용 |
-|------|----------|
-| `EyeExerciseOverlay.swift` | Shake 감지, Pause/Resume, 크기 동적 로딩, makeSeedView() |
-| `EyeExerciseMenuView.swift` | 썸네일 표시, 슬라이더 행, 3자리 시간 입력 |
-| `EyeExerciseManager.swift` | hamsterSizePercent, hamsterSize 추가 |
-| `StatusBarController.swift` | 슬라이더 콜백 연결 |
-| `SunflowerSeedView_original.swift` | 기존 코드 드로잉 백업 (신규) |
-| `Assets.xcassets/sunflower_seed.imageset/` | 씨앗 이미지 에셋 (신규) |
-| `Assets.xcassets/hamster_photo.imageset/hamster_photo.png` | 여백 제거, 정사각형 변환 |
-| `Assets.xcassets/hamster_photo.imageset/hamster_photo_original.png` | 원본 백업 (신규) |
-
----
-
-## 앱 구조 요약
-
-```
-Noti HDD (macOS Menu Bar App)
-├── StatusBarController.swift     — 메뉴바 아이콘, 메뉴 구성
+```text
+Noti HDD/
+├── StatusBarController.swift     — 메뉴바 아이콘과 메뉴
 ├── DiskMonitor.swift             — 디스크 I/O 모니터링
-├── LEDView.swift                 — LED 스타일 뷰
-├── EyeExerciseManager.swift      — 눈운동 타이머, 설정 관리
-├── EyeExerciseOverlay.swift      — 풀스크린 오버레이 (햄스터 애니메이션)
-│   ├── EyeExerciseOverlayWindow  — 오버레이 창
-│   ├── SunflowerSeedView         — 씨앗 코드 드로잉 (폴백용)
-│   └── HamsterView               — 햄스터 코드 드로잉
-├── EyeExerciseMenuView.swift     — 메뉴 커스텀 뷰
+├── EyeExerciseManager.swift      — 눈운동 타이머와 설정
+├── EyeExerciseMotion.swift       — 기본 속도와 거리 비례 이동 시간
+├── EyeExerciseMenuView.swift     — 눈운동 메뉴, 크기와 이동 설정
+├── EyeExerciseOverlay.swift      — 로켓 이동, 목표점, 일시정지와 재개
+├── RocketView.swift              — 나로호 형태의 로켓 그리기
+├── CircularMotionDetector.swift  — 마우스 원형 동작 감지
+├── ShakeDetector.swift           — 마우스 흔들기 감지
 └── Assets.xcassets/
-    ├── hamster_photo.imageset/   — 실사 햄스터 사진
-    └── sunflower_seed.imageset/  — 해바라기씨 이미지
+    └── AppIcon.appiconset/        — 큐브 앱 아이콘
 ```
 
----
-
-*Generated: 2026-03-14*
+빌드 앱, 렌더링 확인용 파일과 임시 작업물은 `.gitignore`로 제외합니다. 현재 구성에 해당하지 않는 과거 기록과 표현을 정리했습니다.

@@ -20,18 +20,11 @@ class EyeExerciseManager {
         }
     }
 
-    var speed: Int = 3 {
+    var speed: Int = EyeExerciseMotion.defaultSpeed {
         didSet {
-            let clamped = max(1, min(10, speed))
+            let clamped = EyeExerciseMotion.clampedSpeed(speed)
             speed = clamped
-            UserDefaults.standard.set(clamped, forKey: "eyeExerciseSpeed")
-        }
-    }
-
-    // "drawn" = 기본 그림 햄스터, "photo" = 실사 햄스터
-    var hamsterStyle: String = "drawn" {
-        didSet {
-            UserDefaults.standard.set(hamsterStyle, forKey: "eyeExerciseHamsterStyle")
+            UserDefaults.standard.set(clamped, forKey: "eyeExerciseMovementSpeed")
         }
     }
 
@@ -42,16 +35,16 @@ class EyeExerciseManager {
         }
     }
 
-    // 햄스터 크기 (10~100%, 50% = 200pt)
-    var hamsterSizePercent: Int = 50 {
+    // 로켓 크기 (10~100%, 50% = 50pt)
+    var rocketSizePercent: Int = 50 {
         didSet {
-            let clamped = max(10, min(100, hamsterSizePercent))
-            hamsterSizePercent = clamped
-            UserDefaults.standard.set(clamped, forKey: "eyeExerciseHamsterSizePercent")
+            let clamped = max(10, min(100, rocketSizePercent))
+            rocketSizePercent = clamped
+            UserDefaults.standard.set(clamped, forKey: "eyeExerciseSizePercent")
         }
     }
 
-    var hamsterSize: CGFloat { CGFloat(hamsterSizePercent) / 100.0 * 400.0 }
+    var rocketSize: CGFloat { CGFloat(rocketSizePercent) }
 
     // pause 트리거 활성화 여부
     var circularDetectorEnabled: Bool = true {
@@ -79,14 +72,15 @@ class EyeExerciseManager {
     private init() {
         let savedMin = UserDefaults.standard.integer(forKey: "eyeExerciseMinutes")
         intervalMinutes = savedMin > 0 ? savedMin : 50
-        let savedSpeed = UserDefaults.standard.integer(forKey: "eyeExerciseSpeed")
-        speed = savedSpeed > 0 ? savedSpeed : 3
-        let savedStyle = UserDefaults.standard.string(forKey: "eyeExerciseHamsterStyle") ?? "drawn"
-        hamsterStyle = savedStyle
+        // Use the new default when upgrading from the previous timing scale.
+        let savedSpeed = UserDefaults.standard.object(forKey: "eyeExerciseMovementSpeed") as? Int
+            ?? EyeExerciseMotion.defaultSpeed
+        speed = EyeExerciseMotion.clampedSpeed(savedSpeed)
         let savedMode = UserDefaults.standard.string(forKey: "eyeExerciseMovementMode") ?? "default"
         movementMode = savedMode
-        let savedSizePercent = UserDefaults.standard.integer(forKey: "eyeExerciseHamsterSizePercent")
-        hamsterSizePercent = savedSizePercent > 0 ? savedSizePercent : 50
+        let savedSizePercent = UserDefaults.standard.object(forKey: "eyeExerciseSizePercent") as? Int
+            ?? 50
+        rocketSizePercent = max(10, min(100, savedSizePercent))
         // 저장된 값이 없으면 기본 true (UserDefaults.bool 은 key 없으면 false 반환하므로 object 확인)
         let circ = UserDefaults.standard.object(forKey: "eyeExerciseCircularEnabled") as? Bool ?? true
         circularDetectorEnabled = circ
